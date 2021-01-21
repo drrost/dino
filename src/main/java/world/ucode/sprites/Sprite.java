@@ -73,6 +73,8 @@ public class Sprite {
     public Image image(String name) {
         URL url = getClass().getClassLoader().getResource(name);
         ImageIcon ii = new ImageIcon(url);
+
+
         return ii.getImage();
     }
 }

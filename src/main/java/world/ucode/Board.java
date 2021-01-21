@@ -1,6 +1,7 @@
 package world.ucode;
 
 import world.ucode.sprites.Character;
+import world.ucode.sprites.Ground;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +14,7 @@ public class Board extends JPanel {
 
     private Dimension d;
     private Character character;
+    private Ground ground;
 
     private boolean inGame = true;
     private String message = "Game Over";
@@ -42,10 +44,16 @@ public class Board extends JPanel {
         character.setX(30);
         character.setY(100);
         character.setState(Character.State.STAND);
+
+        ground = new Ground();
+        ground.setX(0);
+        ImageIcon ii = new ImageIcon(character.getCurrentImage());
+        ground.setY(character.getY() + ii.getIconHeight() - 30);
+
         count = 0;
     }
 
-    private void drawDino(Graphics g) {
+    private void drawCharacter(Graphics g) {
         if (character.isVisible()) {
             Image image = character.getCurrentImage();
             g.drawImage(image, character.getX(), character.getY(), this);
@@ -55,6 +63,11 @@ public class Board extends JPanel {
             character.die();
             inGame = false;
         }
+    }
+
+    private void drawGround(Graphics g) {
+        Image image = ground.getImage(0);
+        g.drawImage(image, ground.getX(), ground.getY(), this);
     }
 
     @Override
@@ -69,7 +82,8 @@ public class Board extends JPanel {
         g.setColor(Color.green);
 
         if (inGame) {
-            drawDino(g);
+            drawGround(g);
+            drawCharacter(g);
         } else {
             if (timer.isRunning()) {
                 timer.stop();
