@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.Random;
 
 public class Board extends JPanel {
 
@@ -21,7 +20,7 @@ public class Board extends JPanel {
     private String message = "Game Over";
 
     private Timer timer;
-
+    private int count;
 
     public Board() {
 
@@ -42,20 +41,17 @@ public class Board extends JPanel {
         gameInit();
     }
 
-
     private void gameInit() {
         dino = new Dino();
+        count = 0;
     }
 
     private void drawDino(Graphics g) {
-
         if (dino.isVisible()) {
-
             g.drawImage(dino.getImage(), dino.getX(), dino.getY(), this);
         }
 
         if (dino.isDying()) {
-
             dino.die();
             inGame = false;
         }
@@ -64,24 +60,20 @@ public class Board extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         doDrawing(g);
     }
 
     private void doDrawing(Graphics g) {
-
-        g.setColor(Color.black);
+        g.setColor(Color.gray);
         g.fillRect(0, 0, d.width, d.height);
         g.setColor(Color.green);
 
         if (inGame) {
             drawDino(g);
         } else {
-
             if (timer.isRunning()) {
                 timer.stop();
             }
-
             gameOver(g);
         }
 
@@ -108,16 +100,16 @@ public class Board extends JPanel {
     }
 
     private void update() {
-
         if (false) {
-
             inGame = false;
             timer.stop();
             message = "Game won!";
         }
 
-        // player
-        dino.act();
+        count++;
+
+        Dino.State state = (count / 10) % 2 == 0 ? Dino.State.LEFT : Dino.State.RIGHT;
+        dino.act(state);
     }
 
     private void doGameCycle() {

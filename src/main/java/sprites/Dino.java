@@ -5,37 +5,50 @@ import java.awt.event.KeyEvent;
 
 public class Dino extends Sprite {
 
-    private int width;
+    public enum State {NONE, STAND, LEFT, RIGHT, DEAD};
+
+    private Image image_left_up;
+    private Image image_right_up;
+
+    private State state;
 
     public Dino() {
         initDino();
     }
 
     private void initDino() {
-        Image im = image("dino_left_up.png");
-        width = im.getWidth(null);
-        setImage(im);
+        image_left_up = image("dino_left_up.png");
+        image_right_up = image("dino_right_up.png");
+        setImage(image_left_up);
 
-        int START_X = 270;
-        setX(START_X);
+        setX(0);
+        setY(150);
 
-        int START_Y = 280;
-        setY(START_Y);
+
     }
 
-    public void act() {
-
+    public void act(State state) {
         x += dx;
         y += dy;
 
         if (x <= 2) {
-
             x = 2;
         }
 
-        if (x >= Commons.BOARD_WIDTH - 2 * width) {
+        updateState(state);
+    }
 
-            x = Commons.BOARD_WIDTH - 2 * width;
+    private void updateState(State state) {
+        this.state = state;
+        switch (state) {
+            case LEFT:
+                setImage(image_left_up);
+                break;
+            case RIGHT:
+                setImage(image_right_up);
+                break;
+            default:
+                setImage(image_left_up);
         }
     }
 
