@@ -24,6 +24,10 @@ public class Board extends JPanel {
     float gameSpeed = Constants.GAME_SPEED_INITIAL;
 
     private boolean isJumping = false;
+    private int jump_x0 = -Constants.JUMP_WINDOW_WIDTH;
+    private int jump_xz = -jump_x0;
+    private float jump_x;
+    private float jump_dx = Constants.JUMP_STEP;
 
     public Board() {
         initBoard();
@@ -137,6 +141,16 @@ public class Board extends JPanel {
         int increment = (int)(Constants.CHARACTER_SPEED_FACTOR * gameSpeed);
         ground.shift(increment);
 
+        if (isJumping) {
+            state = Character.State.STAND;
+            int y = (int)(Constants.JUMP_WIDTH_FACTOR * jump_x * jump_x +
+                Constants.JUMP_TOP_FACTOR);
+            jump_x += jump_dx;
+            character.setY(y);
+            if (jump_x >= jump_xz)
+                isJumping = false;
+        }
+
         character.act(state);
     }
 
@@ -173,6 +187,8 @@ public class Board extends JPanel {
 
             if (key == KeyEvent.VK_SPACE ||
                 key == KeyEvent.VK_UP) {
+                if (isJumping)
+                    return;
                 if (!gameStarted)
                     gameStarted = true;
                 else
@@ -193,5 +209,6 @@ public class Board extends JPanel {
 
     private void jump() {
         isJumping = true;
+        jump_x = jump_x0;
     }
 }

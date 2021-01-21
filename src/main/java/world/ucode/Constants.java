@@ -13,4 +13,9 @@ public interface Constants {
     float GAME_SPEED_INITIAL = 1.0f;
     float GAME_SPEED_INCREMENT = 1.0f;
     float CHARACTER_SPEED_FACTOR = 2.0f;
+
+    int JUMP_WINDOW_WIDTH = 15;
+    float JUMP_WIDTH_FACTOR = 0.9f;
+    int JUMP_TOP_FACTOR = 15;
+    float JUMP_STEP = 0.5f;
 }
