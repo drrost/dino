@@ -14,8 +14,7 @@ public class Board extends JPanel {
 
     private Dimension d;
     private Character character;
-    private Ground ground_1;
-    private Ground ground_2;
+    private GroundComponent groundComponent;
 
     private boolean inGame = true;
     private String message = "Game Over";
@@ -48,17 +47,12 @@ public class Board extends JPanel {
         character.setY(100);
         character.setState(Character.State.STAND);
 
-        // Ground 1
-        ground_1 = new Ground();
-        ground_1.setX(0);
+        // Ground
+//        character.getCurrentImage().getHeight(this);
+        groundComponent = new GroundComponent();
         ImageIcon ii = new ImageIcon(character.getCurrentImage());
-        ground_1.setY(character.getY() + ii.getIconHeight() - 30);
-
-        // Ground 2
-        ground_2 = new Ground();
-        ii = new ImageIcon(ground_1.getImage(0));
-        ground_2.setX(ii.getIconWidth());
-        ground_2.setY(ground_1.getY());
+        int y = character.getY() + ii.getIconHeight() - 30;
+        groundComponent.initGround(y);
 
         count = 0;
     }
@@ -75,14 +69,6 @@ public class Board extends JPanel {
         }
     }
 
-    private void drawGround(Graphics g) {
-        Image image = ground_1.getImage(0);
-        g.drawImage(image, ground_1.getX(), ground_1.getY(), this);
-
-        image = ground_2.getImage(0);
-        g.drawImage(image, ground_2.getX(), ground_2.getY(), this);
-    }
-
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -95,7 +81,7 @@ public class Board extends JPanel {
         g.setColor(Color.green);
 
         if (inGame) {
-            drawGround(g);
+            groundComponent.drawGround(g, this);
             drawCharacter(g);
         } else {
             if (timer.isRunning()) {
@@ -141,16 +127,7 @@ public class Board extends JPanel {
         count++;
 
         int increment = (int)(Constants.CHARACTER_SPEED_FACTOR * gameSpeed);
-        ground_1.setX(ground_1.getX() - increment);
-        ground_2.setX(ground_2.getX() - increment);
-
-        if (ground_2.getX() <= 0) {
-            ImageIcon ii = new ImageIcon(ground_2.getImage(0));
-            ground_1.setX(ground_2.getX() + ii.getIconWidth());
-            Ground temp = ground_1;
-            ground_1 = ground_2;
-            ground_2 = temp;
-        }
+        groundComponent.shift(increment);
 
         Character.State state = (count / 10) % 2 == 0 ? Character.State.LEFT : Character.State.RIGHT;
         character.act(state);
