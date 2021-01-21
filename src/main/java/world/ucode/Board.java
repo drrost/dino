@@ -1,7 +1,6 @@
 package world.ucode;
 
 import world.ucode.sprites.Character;
-import world.ucode.sprites.Ground;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +13,7 @@ public class Board extends JPanel {
 
     private Dimension d;
     private Character character;
-    private GroundComponent groundComponent;
+    private GroundComponent ground;
 
     private boolean inGame = true;
     private String message = "Game Over";
@@ -48,11 +47,10 @@ public class Board extends JPanel {
         character.setState(Character.State.STAND);
 
         // Ground
-//        character.getCurrentImage().getHeight(this);
-        groundComponent = new GroundComponent();
-        ImageIcon ii = new ImageIcon(character.getCurrentImage());
-        int y = character.getY() + ii.getIconHeight() - 30;
-        groundComponent.initGround(y);
+        ground = new GroundComponent();
+        int height = character.getCurrentImage().getHeight(this);
+        int y = character.getY() + height - 30;
+        ground.initGround(y);
 
         count = 0;
     }
@@ -81,7 +79,7 @@ public class Board extends JPanel {
         g.setColor(Color.green);
 
         if (inGame) {
-            groundComponent.drawGround(g, this);
+            ground.drawGround(g, this);
             drawCharacter(g);
         } else {
             if (timer.isRunning()) {
@@ -127,7 +125,7 @@ public class Board extends JPanel {
         count++;
 
         int increment = (int)(Constants.CHARACTER_SPEED_FACTOR * gameSpeed);
-        groundComponent.shift(increment);
+        ground.shift(increment);
 
         Character.State state = (count / 10) % 2 == 0 ? Character.State.LEFT : Character.State.RIGHT;
         character.act(state);
