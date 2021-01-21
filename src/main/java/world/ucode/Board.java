@@ -135,6 +135,12 @@ public class Board extends JPanel {
 
         @Override
         public void keyReleased(KeyEvent e) {
+            int key = e.getKeyCode();
+
+            if (key == KeyEvent.VK_ENTER) {
+                gameStarted = true;
+                return;
+            }
 
             dino.keyReleased(e);
         }
