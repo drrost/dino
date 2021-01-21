@@ -7,6 +7,7 @@ public class Dino extends Sprite {
 
     public enum State {NONE, STAND, LEFT, RIGHT, DEAD};
 
+    private Image image_stand;
     private Image image_left_up;
     private Image image_right_up;
 
@@ -17,14 +18,10 @@ public class Dino extends Sprite {
     }
 
     private void initDino() {
+        image_stand = image("dino_stand.png");
         image_left_up = image("dino_left_up.png");
         image_right_up = image("dino_right_up.png");
         setImage(image_left_up);
-
-        setX(0);
-        setY(150);
-
-
     }
 
     public void act(State state) {
@@ -38,6 +35,11 @@ public class Dino extends Sprite {
         updateState(state);
     }
 
+    public void setState(State state) {
+        this.state = state;
+        updateState(state);
+    }
+
     private void updateState(State state) {
         this.state = state;
         switch (state) {
@@ -48,7 +50,7 @@ public class Dino extends Sprite {
                 setImage(image_right_up);
                 break;
             default:
-                setImage(image_left_up);
+                setImage(image_stand);
         }
     }
 

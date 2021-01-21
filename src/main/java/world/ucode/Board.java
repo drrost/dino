@@ -14,19 +14,16 @@ public class Board extends JPanel {
     private Dimension d;
     private Dino dino;
 
-    private int direction = -1;
-    private int deaths = 0;
-
     private boolean inGame = true;
-    private String message = "world.ucode.Game Over";
+    private String message = "Game Over";
+    private boolean gameStarted = false;
 
     private Timer timer;
     private int count;
 
     public Board() {
-
         initBoard();
-        gameInit();
+        initGame();
     }
 
     private void initBoard() {
@@ -38,12 +35,13 @@ public class Board extends JPanel {
 
         timer = new Timer(Constants.DELAY, new GameCycle());
         timer.start();
-
-        gameInit();
     }
 
-    private void gameInit() {
+    private void initGame() {
         dino = new Dino();
+        dino.setX(30);
+        dino.setY(100);
+        dino.setState(Dino.State.STAND);
         count = 0;
     }
 
@@ -104,7 +102,12 @@ public class Board extends JPanel {
         if (false) {
             inGame = false;
             timer.stop();
-            message = "world.ucode.Game won!";
+            message = "Game won!";
+        }
+
+        if (!gameStarted) {
+            dino.act(Dino.State.STAND);
+            return;
         }
 
         count++;
