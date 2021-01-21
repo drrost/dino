@@ -1,6 +1,6 @@
 package world.ucode;
 
-import world.ucode.sprites.Dino;
+import world.ucode.sprites.Character;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +12,7 @@ import java.awt.event.KeyEvent;
 public class Board extends JPanel {
 
     private Dimension d;
-    private Dino dino;
+    private Character character;
 
     private boolean inGame = true;
     private String message = "Game Over";
@@ -38,21 +38,21 @@ public class Board extends JPanel {
     }
 
     private void initGame() {
-        dino = new Dino();
-        dino.setX(30);
-        dino.setY(100);
-        dino.setState(Dino.State.STAND);
+        character = new Character();
+        character.setX(30);
+        character.setY(100);
+        character.setState(Character.State.STAND);
         count = 0;
     }
 
     private void drawDino(Graphics g) {
-        if (dino.isVisible()) {
-            Image image = dino.getCurrentImage();
-            g.drawImage(image, dino.getX(), dino.getY(), this);
+        if (character.isVisible()) {
+            Image image = character.getCurrentImage();
+            g.drawImage(image, character.getX(), character.getY(), this);
         }
 
-        if (dino.isDying()) {
-            dino.die();
+        if (character.isDying()) {
+            character.die();
             inGame = false;
         }
     }
@@ -107,14 +107,14 @@ public class Board extends JPanel {
         }
 
         if (!gameStarted) {
-            dino.act(Dino.State.STAND);
+            character.act(Character.State.STAND);
             return;
         }
 
         count++;
 
-        Dino.State state = (count / 10) % 2 == 0 ? Dino.State.LEFT : Dino.State.RIGHT;
-        dino.act(state);
+        Character.State state = (count / 10) % 2 == 0 ? Character.State.LEFT : Character.State.RIGHT;
+        character.act(state);
     }
 
     private void doGameCycle() {
@@ -143,16 +143,16 @@ public class Board extends JPanel {
                 return;
             }
 
-            dino.keyReleased(e);
+            character.keyReleased(e);
         }
 
         @Override
         public void keyPressed(KeyEvent e) {
 
-            dino.keyPressed(e);
+            character.keyPressed(e);
 
-            int x = dino.getX();
-            int y = dino.getY();
+            int x = character.getX();
+            int y = character.getY();
 
             int key = e.getKeyCode();
         }

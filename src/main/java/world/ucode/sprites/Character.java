@@ -3,13 +3,13 @@ package world.ucode.sprites;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-public class Dino extends Sprite {
+public class Character extends Sprite {
 
     public enum State { STAND, LEFT, RIGHT, DEAD };
 
     private State state;
 
-    public Dino() {
+    public Character() {
         initDino();
     }
 
