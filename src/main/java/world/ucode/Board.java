@@ -22,6 +22,7 @@ public class Board extends JPanel {
 
     private Timer timer;
     private int count;
+    float gameSpeed = Constants.GAME_SPEED_INITIAL;
 
     public Board() {
         initBoard();
@@ -127,12 +128,14 @@ public class Board extends JPanel {
 
         count++;
 
+        int increment = (int)(Constants.CHARACTER_SPEED_FACTOR * gameSpeed);
+        ground.setX(ground.getX() - increment);
+
         Character.State state = (count / 10) % 2 == 0 ? Character.State.LEFT : Character.State.RIGHT;
         character.act(state);
     }
 
     private void doGameCycle() {
-
         update();
         repaint();
     }
