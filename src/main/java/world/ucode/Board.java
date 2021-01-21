@@ -14,7 +14,8 @@ public class Board extends JPanel {
 
     private Dimension d;
     private Character character;
-    private Ground ground;
+    private Ground ground_1;
+    private Ground ground_2;
 
     private boolean inGame = true;
     private String message = "Game Over";
@@ -41,15 +42,23 @@ public class Board extends JPanel {
     }
 
     private void initGame() {
+        // Character
         character = new Character();
         character.setX(30);
         character.setY(100);
         character.setState(Character.State.STAND);
 
-        ground = new Ground();
-        ground.setX(0);
+        // Ground 1
+        ground_1 = new Ground();
+        ground_1.setX(0);
         ImageIcon ii = new ImageIcon(character.getCurrentImage());
-        ground.setY(character.getY() + ii.getIconHeight() - 30);
+        ground_1.setY(character.getY() + ii.getIconHeight() - 30);
+
+        // Ground 2
+        ground_2 = new Ground();
+        ii = new ImageIcon(ground_1.getImage(0));
+        ground_2.setX(ii.getIconWidth());
+        ground_2.setY(ground_1.getY());
 
         count = 0;
     }
@@ -67,8 +76,11 @@ public class Board extends JPanel {
     }
 
     private void drawGround(Graphics g) {
-        Image image = ground.getImage(0);
-        g.drawImage(image, ground.getX(), ground.getY(), this);
+        Image image = ground_1.getImage(0);
+        g.drawImage(image, ground_1.getX(), ground_1.getY(), this);
+
+        image = ground_2.getImage(0);
+        g.drawImage(image, ground_2.getX(), ground_2.getY(), this);
     }
 
     @Override
@@ -129,7 +141,16 @@ public class Board extends JPanel {
         count++;
 
         int increment = (int)(Constants.CHARACTER_SPEED_FACTOR * gameSpeed);
-        ground.setX(ground.getX() - increment);
+        ground_1.setX(ground_1.getX() - increment);
+        ground_2.setX(ground_2.getX() - increment);
+
+        if (ground_2.getX() <= 0) {
+            ImageIcon ii = new ImageIcon(ground_2.getImage(0));
+            ground_1.setX(ground_2.getX() + ii.getIconWidth());
+            Ground temp = ground_1;
+            ground_1 = ground_2;
+            ground_2 = temp;
+        }
 
         Character.State state = (count / 10) % 2 == 0 ? Character.State.LEFT : Character.State.RIGHT;
         character.act(state);
