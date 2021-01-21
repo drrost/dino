@@ -1,4 +1,4 @@
-package sprites;
+package world.ucode.sprites;
 
 public interface Commons {
 

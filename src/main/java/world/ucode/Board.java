@@ -1,5 +1,7 @@
-import sprites.Commons;
-import sprites.Dino;
+package world.ucode;
+
+import world.ucode.sprites.Commons;
+import world.ucode.sprites.Dino;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +19,7 @@ public class Board extends JPanel {
     private int deaths = 0;
 
     private boolean inGame = true;
-    private String message = "Game Over";
+    private String message = "world.ucode.Game Over";
 
     private Timer timer;
     private int count;
@@ -103,7 +105,7 @@ public class Board extends JPanel {
         if (false) {
             inGame = false;
             timer.stop();
-            message = "Game won!";
+            message = "world.ucode.Game won!";
         }
 
         count++;

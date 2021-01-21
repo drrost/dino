@@ -1,4 +1,4 @@
-package sprites;
+package world.ucode.sprites;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;

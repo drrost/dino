@@ -1,4 +1,6 @@
-import sprites.Commons;
+package world.ucode;
+
+import world.ucode.sprites.Commons;
 
 import javax.swing.*;
 import java.awt.*;

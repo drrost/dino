@@ -1,3 +1,5 @@
+package world.ucode;
+
 import javax.swing.*;
 import java.awt.*;
 

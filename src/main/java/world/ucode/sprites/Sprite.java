@@ -1,4 +1,4 @@
-package sprites;
+package world.ucode.sprites;
 
 import javax.swing.*;
 import java.awt.Image;
