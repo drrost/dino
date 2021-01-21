@@ -1,7 +1,5 @@
 package world.ucode;
 
-import world.ucode.sprites.Commons;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -15,7 +13,7 @@ public class Main extends JFrame  {
         add(new Board());
 
         setTitle("T-Rex");
-        setSize(Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
+        setSize(Constants.BOARD_WIDTH, Constants.BOARD_HEIGHT);
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);

@@ -1,6 +1,5 @@
 package world.ucode;
 
-import world.ucode.sprites.Commons;
 import world.ucode.sprites.Dino;
 
 import javax.swing.*;
@@ -34,10 +33,10 @@ public class Board extends JPanel {
 
         addKeyListener(new TAdapter());
         setFocusable(true);
-        d = new Dimension(Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
+        d = new Dimension(Constants.BOARD_WIDTH, Constants.BOARD_HEIGHT);
         setBackground(Color.black);
 
-        timer = new Timer(Commons.DELAY, new GameCycle());
+        timer = new Timer(Constants.DELAY, new GameCycle());
         timer.start();
 
         gameInit();
@@ -85,20 +84,20 @@ public class Board extends JPanel {
     private void gameOver(Graphics g) {
 
         g.setColor(Color.black);
-        g.fillRect(0, 0, Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
+        g.fillRect(0, 0, Constants.BOARD_WIDTH, Constants.BOARD_HEIGHT);
 
         g.setColor(new Color(0, 32, 48));
-        g.fillRect(50, Commons.BOARD_WIDTH / 2 - 30, Commons.BOARD_WIDTH - 100, 50);
+        g.fillRect(50, Constants.BOARD_WIDTH / 2 - 30, Constants.BOARD_WIDTH - 100, 50);
         g.setColor(Color.white);
-        g.drawRect(50, Commons.BOARD_WIDTH / 2 - 30, Commons.BOARD_WIDTH - 100, 50);
+        g.drawRect(50, Constants.BOARD_WIDTH / 2 - 30, Constants.BOARD_WIDTH - 100, 50);
 
         var small = new Font("Helvetica", Font.BOLD, 14);
         var fontMetrics = this.getFontMetrics(small);
 
         g.setColor(Color.white);
         g.setFont(small);
-        g.drawString(message, (Commons.BOARD_WIDTH - fontMetrics.stringWidth(message)) / 2,
-            Commons.BOARD_WIDTH / 2);
+        g.drawString(message, (Constants.BOARD_WIDTH - fontMetrics.stringWidth(message)) / 2,
+            Constants.BOARD_WIDTH / 2);
     }
 
     private void update() {

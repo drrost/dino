@@ -1,6 +1,6 @@
-package world.ucode.sprites;
+package world.ucode;
 
-public interface Commons {
+public interface Constants {
 
     int BOARD_WIDTH = 1500;
     int BOARD_HEIGHT = 350;
