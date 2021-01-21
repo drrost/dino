@@ -3,7 +3,10 @@ package world.ucode;
 public interface Constants {
 
     int BOARD_WIDTH = 1000;
-    int BOARD_HEIGHT = 250;
+    int BOARD_HEIGHT = 350;
+
+    int CHARACTER_X_POSITION = 30;
+    int CHARACTER_Y_OFFSET = 50;
 
     int DELAY = 10;
 

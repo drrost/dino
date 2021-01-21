@@ -23,6 +23,8 @@ public class Board extends JPanel {
     private int count;
     float gameSpeed = Constants.GAME_SPEED_INITIAL;
 
+    private boolean isJumping = false;
+
     public Board() {
         initBoard();
         initGame();
@@ -42,17 +44,22 @@ public class Board extends JPanel {
     private void initGame() {
         // Character
         character = new Character();
-        character.setX(30);
-        character.setY(100);
         character.setState(Character.State.STAND);
+
+        Image image = character.getCurrentImage();
+        int height = image.getHeight(this);
+
+        character.setX(Constants.CHARACTER_X_POSITION);
+        int y = Constants.BOARD_HEIGHT - height - Constants.CHARACTER_Y_OFFSET;
+        character.setY(y);
 
         // Ground
         ground = new GroundComponent();
-        int height = character.getCurrentImage().getHeight(this);
-        int y = character.getY() + height - 30;
+        y = character.getY() + height - 30;
         ground.initGround(y);
 
         count = 0;
+        isJumping = false;
     }
 
     private void drawCharacter(Graphics g) {
@@ -117,8 +124,11 @@ public class Board extends JPanel {
             message = "Game won!";
         }
 
+        Character.State state = (count / 10) % 2 == 0 ? Character.State.LEFT : Character.State.RIGHT;
+
         if (!gameStarted) {
-            character.act(Character.State.STAND);
+            state = count > 0 ? state : Character.State.STAND;
+            character.act(state);
             return;
         }
 
@@ -127,7 +137,6 @@ public class Board extends JPanel {
         int increment = (int)(Constants.CHARACTER_SPEED_FACTOR * gameSpeed);
         ground.shift(increment);
 
-        Character.State state = (count / 10) % 2 == 0 ? Character.State.LEFT : Character.State.RIGHT;
         character.act(state);
     }
 
@@ -140,7 +149,6 @@ public class Board extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
             doGameCycle();
         }
     }
@@ -156,18 +164,34 @@ public class Board extends JPanel {
                 return;
             }
 
-            character.keyReleased(e);
+            if (key == KeyEvent.VK_P) {
+                if (count == 0)
+                    return;
+                gameStarted = !gameStarted;
+                return;
+            }
+
+            if (key == KeyEvent.VK_SPACE ||
+                key == KeyEvent.VK_UP) {
+                if (!gameStarted)
+                    gameStarted = true;
+                else
+                    jump();
+                return;
+            }
         }
 
         @Override
         public void keyPressed(KeyEvent e) {
-
-            character.keyPressed(e);
 
             int x = character.getX();
             int y = character.getY();
 
             int key = e.getKeyCode();
         }
+    }
+
+    private void jump() {
+        isJumping = true;
     }
 }
