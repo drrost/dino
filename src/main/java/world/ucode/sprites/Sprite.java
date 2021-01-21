@@ -1,14 +1,17 @@
 package world.ucode.sprites;
 
 import javax.swing.*;
-import java.awt.Image;
+import java.awt.*;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class Sprite {
 
     private boolean visible;
-    private Image image;
     private boolean dying;
+
+    protected ArrayList<String> imageNames;
+    protected ArrayList<Image> images;
 
     protected int x;
     protected int y;
@@ -18,6 +21,8 @@ public class Sprite {
 
     public Sprite() {
         visible = true;
+        imageNames = new ArrayList<>();
+        images = new ArrayList<>();
     }
 
     public void die() {
@@ -32,12 +37,13 @@ public class Sprite {
         this.visible = visible;
     }
 
-    public void setImage(Image image) {
-        this.image = image;
+    public void addImage(String name) {
+        Image image = image(name);
+        images.add(image);
     }
 
-    public Image getImage() {
-        return image;
+    public Image getImage(int idx) {
+        return images.get(idx);
     }
 
     public void setX(int x) {

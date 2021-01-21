@@ -47,7 +47,8 @@ public class Board extends JPanel {
 
     private void drawDino(Graphics g) {
         if (dino.isVisible()) {
-            g.drawImage(dino.getImage(), dino.getX(), dino.getY(), this);
+            Image image = dino.getCurrentImage();
+            g.drawImage(image, dino.getX(), dino.getY(), this);
         }
 
         if (dino.isDying()) {
