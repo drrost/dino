@@ -22,11 +22,6 @@ public class Character extends Sprite {
     public void act(State state) {
         x += dx;
         y += dy;
-
-        if (x <= 2) {
-            x = 2;
-        }
-
         setState(state);
     }
 

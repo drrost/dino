@@ -1,6 +1,7 @@
 package world.ucode;
 
 import world.ucode.sprites.Character;
+import world.ucode.sprites.Obstacle;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 public class Board extends JPanel {
 
@@ -28,6 +30,8 @@ public class Board extends JPanel {
     private int jump_xz = -jump_x0;
     private float jump_x;
     private float jump_dx = Constants.JUMP_STEP;
+
+    private ArrayList<Obstacle> obstacles;
 
     public Board() {
         initBoard();
