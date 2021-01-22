@@ -1,7 +1,10 @@
 package world.ucode;
 
+import world.ucode.game.ObstacleFactory;
+import world.ucode.sprites.Cactus;
 import world.ucode.sprites.Character;
 import world.ucode.sprites.Obstacle;
+import world.ucode.utils.Utils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,7 +34,8 @@ public class Board extends JPanel {
     private float jump_x;
     private float jump_dx = Constants.JUMP_STEP;
 
-    private ArrayList<Obstacle> obstacles;
+    private ArrayList<Obstacle> cactuses;
+    int countToNextCactus;
 
     public Board() {
         initBoard();
@@ -68,6 +72,10 @@ public class Board extends JPanel {
 
         count = 0;
         isJumping = false;
+
+        // Obstacles
+        cactuses = new ArrayList<Obstacle>();
+        countToNextCactus = Constants.COUNT_TO_NEXT_INITIAL;
     }
 
     private void drawCharacter(Graphics g) {
@@ -79,6 +87,13 @@ public class Board extends JPanel {
         if (character.isDying()) {
             character.die();
             inGame = false;
+        }
+    }
+
+    private void drawCactuses(Graphics g) {
+        for (Obstacle cactus : cactuses) {
+            Image image = cactus.getImage(0);
+            g.drawImage(image, cactus.getX(), cactus.getY(), this);
         }
     }
 
@@ -95,6 +110,7 @@ public class Board extends JPanel {
 
         if (inGame) {
             ground.drawGround(g, this);
+            drawCactuses(g);
             drawCharacter(g);
         } else {
             if (timer.isRunning()) {
@@ -156,6 +172,22 @@ public class Board extends JPanel {
         }
 
         character.act(state);
+
+        // Cactuses
+        countToNextCactus--;
+        if (countToNextCactus <= 0) {
+            addCactus();
+            countToNextCactus = Utils.getRandomNumber(
+                Constants.COUNT_TO_NEXT_MIN, Constants.COUNT_TO_NEXT_MAX);
+        }
+    }
+
+    private void addCactus() {
+        ObstacleFactory obstacleFactory = new ObstacleFactory();
+        Cactus cactus = obstacleFactory.randomCactus();
+        cactuses.add(cactus);
+        cactus.setX(50);
+        cactus.setY(100);
     }
 
     private void doGameCycle() {

@@ -18,4 +18,8 @@ public interface Constants {
     float JUMP_WIDTH_FACTOR = 0.9f;
     int JUMP_TOP_FACTOR = 15;
     float JUMP_STEP = 0.5f;
+
+    int COUNT_TO_NEXT_INITIAL = 100;
+    int COUNT_TO_NEXT_MIN = 100;
+    int COUNT_TO_NEXT_MAX = 200;
 }
