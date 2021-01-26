@@ -24,4 +24,10 @@ public interface Constants {
     int COUNT_TO_NEXT_INITIAL = 100;
     int COUNT_TO_NEXT_MIN = 300;
     int COUNT_TO_NEXT_MAX = 500;
+
+    int COUNT_TO_NEXT_CLOUD_INITIAL = 50;
+    int COUNT_TO_NEXT_CLOUD_MIN = 200;
+    int COUNT_TO_NEXT_CLOUD_MAX = 300;
+    int CLOUD_Y_MIN = 120;
+    int CLOUD_Y_MAX = 220;
 }

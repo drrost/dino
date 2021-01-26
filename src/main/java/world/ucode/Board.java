@@ -4,6 +4,7 @@ import world.ucode.controls.ScoreView;
 import world.ucode.game.ObstacleFactory;
 import world.ucode.sprites.Cactus;
 import world.ucode.sprites.Character;
+import world.ucode.sprites.Cloud;
 import world.ucode.sprites.Obstacle;
 import world.ucode.utils.Utils;
 
@@ -45,6 +46,10 @@ public class Board extends JPanel {
 
     private ArrayList<Obstacle> cactuses;
     int countToNextCactus;
+
+    private ArrayList<Cloud> clouds;
+    int countToNextCloud;
+
     int counts_to_increment = 0;
 
     public Board() {
@@ -99,8 +104,12 @@ public class Board extends JPanel {
         isJumping = false;
 
         // Obstacles
-        cactuses = new ArrayList<Obstacle>();
+        cactuses = new ArrayList<>();
         countToNextCactus = Constants.COUNT_TO_NEXT_INITIAL;
+
+        // Clouds
+        clouds = new ArrayList<>();
+        countToNextCloud = Constants.COUNT_TO_NEXT_CLOUD_INITIAL;
     }
 
     private void drawCharacter(Graphics g) {
@@ -122,6 +131,13 @@ public class Board extends JPanel {
         }
     }
 
+    private void drawClouds(Graphics g) {
+        for (Cloud cloud : clouds) {
+            var image = cloud.getImage(0);
+            g.drawImage(image, cloud.getX(), cloud.getY(), this);
+        }
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -138,6 +154,7 @@ public class Board extends JPanel {
 
         ground.drawGround(g, this);
         drawCactuses(g);
+        drawClouds(g);
         drawCharacter(g);
 
         Toolkit.getDefaultToolkit().sync();
@@ -208,6 +225,18 @@ public class Board extends JPanel {
         }
         cactuses.stream().filter(o -> o.getX() + o.getWidth(this) > 0);
 
+        // Clouds
+        countToNextCloud--;
+        if (countToNextCloud <= 0) {
+            addCloud();
+            countToNextCloud = Utils.getRandomNumber(
+                Constants.COUNT_TO_NEXT_CLOUD_MIN, Constants.COUNT_TO_NEXT_CLOUD_MAX);
+        }
+        for (Cloud cloud : clouds) {
+            cloud.setX(cloud.getX() - (int) (increment * 0.5));
+        }
+        clouds.stream().filter(o -> o.getX() + o.getWidth(this) > 0);
+
         // Collisions
         //
         for (Obstacle cactus : cactuses) {
@@ -229,8 +258,10 @@ public class Board extends JPanel {
         int increment_gap = Constants.GAME_SPEED_GAP;
 
         int total_increment_steps = increment_gap * step;
-        if (score % 100 == 0 && gameSpeed < Constants.GAME_SPEED_MAX && score != oldScore)
+        if (score % 100 == 0 && gameSpeed < Constants.GAME_SPEED_MAX && score != oldScore) {
             counts_to_increment = total_increment_steps;
+            Utils.playSound("speed_up.wav");
+        }
 
         if (counts_to_increment > 0) {
             float increment_step = increment_value / total_increment_steps;
@@ -251,6 +282,18 @@ public class Board extends JPanel {
         int height = image.getHeight(this);
         image.getWidth(this);
         cactus.setY(baseline - height);
+    }
+
+    private void addCloud() {
+        Cloud cloud = new Cloud();
+        clouds.add(cloud);
+
+        Image image = cloud.getImage(0);
+        cloud.setX(Constants.BOARD_WIDTH);
+        int height = image.getHeight(this);
+        image.getWidth(this);
+        var y_offset = Utils.getRandomNumber(Constants.CLOUD_Y_MIN, Constants.CLOUD_Y_MAX);
+        cloud.setY(baseline - height - y_offset);
     }
 
     private void doGameCycle() {
