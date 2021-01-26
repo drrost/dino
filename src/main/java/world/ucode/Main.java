@@ -1,6 +1,7 @@
 package world.ucode;
 
 import world.ucode.board.Board;
+import world.ucode.hall.Hall;
 import world.ucode.menu.Menu;
 
 import javax.swing.*;
@@ -36,6 +37,10 @@ public class Main extends JFrame {
 
     public void showMainMenu() {
         showPanel(new Menu());
+    }
+
+    public void showHall() {
+        showPanel(new Hall());
     }
 
     private static Main instance;

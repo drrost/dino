@@ -28,7 +28,7 @@ public class Board extends JPanel {
 
     private int score = 0;
 
-    private Dimension d;
+    private Dimension dimension;
     private int baseline = 0;
     private Character character;
     private GroundComponent ground;
@@ -64,7 +64,7 @@ public class Board extends JPanel {
 
         addKeyListener(new TAdapter());
         setFocusable(true);
-        d = new Dimension(Constants.BOARD_WIDTH, Constants.BOARD_HEIGHT);
+        dimension = new Dimension(Constants.BOARD_WIDTH, Constants.BOARD_HEIGHT);
         setBackground(Color.black);
 
         timer = new Timer(Constants.DELAY, new GameCycle());
@@ -149,7 +149,7 @@ public class Board extends JPanel {
 
     private void doDrawing(Graphics g) {
         g.setColor(Color.gray);
-        g.fillRect(0, 0, d.width, d.height);
+        g.fillRect(0, 0, dimension.width, dimension.height);
         g.setColor(Color.green);
 
         if (!inGame)

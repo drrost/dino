@@ -123,6 +123,10 @@ public class Menu extends JPanel implements ActionListener {
                     setFocusable(false);
                     Main.shared().startNewGame();
                 }
+                if (selectedMenuItemType == MenuItemType.HALL_OF_FAME) {
+                    setFocusable(false);
+                    Main.shared().showHall();
+                }
                 return;
             }
 
