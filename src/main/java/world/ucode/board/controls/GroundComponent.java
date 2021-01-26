@@ -1,6 +1,6 @@
-package world.ucode;
+package world.ucode.board.controls;
 
-import world.ucode.sprites.Ground;
+import world.ucode.board.sprites.Ground;
 
 import javax.swing.*;
 import java.awt.*;

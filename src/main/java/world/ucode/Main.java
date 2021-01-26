@@ -1,5 +1,7 @@
 package world.ucode;
 
+import world.ucode.menu.Menu;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,7 +12,7 @@ public class Main extends JFrame  {
     }
 
     private void initUI() {
-        add(new Board());
+        add(new Menu());
 
         setTitle("T-Rex");
         setSize(Constants.BOARD_WIDTH, Constants.BOARD_HEIGHT);
@@ -23,7 +25,6 @@ public class Main extends JFrame  {
     public static void main(String[] args) {
 
         EventQueue.invokeLater(() -> {
-
             var ex = new Main();
             ex.setVisible(true);
         });

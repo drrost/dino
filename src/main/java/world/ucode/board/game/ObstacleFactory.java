@@ -1,6 +1,6 @@
-package world.ucode.game;
+package world.ucode.board.game;
 
-import world.ucode.sprites.Cactus;
+import world.ucode.board.sprites.Cactus;
 import world.ucode.utils.Utils;
 
 public class ObstacleFactory {

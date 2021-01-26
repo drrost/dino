@@ -1,11 +1,13 @@
-package world.ucode;
+package world.ucode.board;
 
-import world.ucode.controls.ScoreView;
-import world.ucode.game.ObstacleFactory;
-import world.ucode.sprites.Cactus;
-import world.ucode.sprites.Character;
-import world.ucode.sprites.Cloud;
-import world.ucode.sprites.Obstacle;
+import world.ucode.Constants;
+import world.ucode.board.controls.GroundComponent;
+import world.ucode.board.controls.ScoreView;
+import world.ucode.board.game.ObstacleFactory;
+import world.ucode.board.sprites.Cactus;
+import world.ucode.board.sprites.Character;
+import world.ucode.board.sprites.Cloud;
+import world.ucode.board.sprites.Obstacle;
 import world.ucode.utils.Utils;
 
 import javax.swing.*;

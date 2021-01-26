@@ -1,6 +1,4 @@
-package world.ucode.sprites;
-
-import org.w3c.dom.css.Rect;
+package world.ucode.board.sprites;
 
 import javax.swing.*;
 import java.awt.*;

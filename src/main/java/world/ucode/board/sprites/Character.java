@@ -1,7 +1,6 @@
-package world.ucode.sprites;
+package world.ucode.board.sprites;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
 
 public class Character extends Sprite {
 

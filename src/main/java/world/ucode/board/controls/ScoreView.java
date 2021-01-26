@@ -1,7 +1,6 @@
-package world.ucode.controls;
+package world.ucode.board.controls;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class ScoreView extends JLabel {
 
