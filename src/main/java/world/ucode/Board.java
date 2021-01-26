@@ -144,6 +144,7 @@ public class Board extends JPanel {
     }
 
     private void gameOver(Graphics g) {
+
         g.setColor(new Color(32, 32, 32));
         g.fillRect(0, 0, Constants.BOARD_WIDTH, Constants.BOARD_HEIGHT);
 
@@ -213,6 +214,7 @@ public class Board extends JPanel {
             if (character.intercepts(cactus, this)) {
                 gameStarted = false;
                 inGame = false;
+                Utils.playSound("game_over.wav");
             }
         }
 
@@ -315,5 +317,6 @@ public class Board extends JPanel {
     private void jump() {
         isJumping = true;
         jump_x = jump_x0;
+         Utils.playSound("jump.wav");
     }
 }
