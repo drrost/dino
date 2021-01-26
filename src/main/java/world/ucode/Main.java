@@ -1,18 +1,19 @@
 package world.ucode;
 
+import world.ucode.board.Board;
 import world.ucode.menu.Menu;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class Main extends JFrame  {
+public class Main extends JFrame {
 
     public Main() {
         initUI();
     }
 
     private void initUI() {
-        add(new Menu());
+        showMainMenu();
 
         setTitle("T-Rex");
         setSize(Constants.BOARD_WIDTH, Constants.BOARD_HEIGHT);
@@ -25,8 +26,40 @@ public class Main extends JFrame  {
     public static void main(String[] args) {
 
         EventQueue.invokeLater(() -> {
-            var ex = new Main();
-            ex.setVisible(true);
+            instance = new Main();
+            instance.setVisible(true);
         });
+    }
+
+    public void startNewGame() {
+        EventQueue.invokeLater(() -> {
+            getContentPane().removeAll();
+            var board = new Board();
+            getContentPane().add(board);
+            invalidate();
+            validate();
+            board.requestFocusInWindow();
+            board.setFocusable(true);
+            board.setVisible(true);
+        });
+    }
+
+    public void showMainMenu() {
+        EventQueue.invokeLater(() -> {
+            getContentPane().removeAll();
+            var menu = new Menu();
+            getContentPane().add(menu);
+            invalidate();
+            validate();
+            menu.requestFocusInWindow();
+            menu.setFocusable(true);
+            menu.setVisible(true);
+        });
+    }
+
+    private static Main instance;
+
+    public static Main shared() {
+        return instance;
     }
 }

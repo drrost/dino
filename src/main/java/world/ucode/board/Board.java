@@ -1,6 +1,7 @@
 package world.ucode.board;
 
 import world.ucode.Constants;
+import world.ucode.Main;
 import world.ucode.board.controls.GroundComponent;
 import world.ucode.board.controls.ScoreView;
 import world.ucode.board.game.ObstacleFactory;
@@ -71,7 +72,7 @@ public class Board extends JPanel {
 
         scoreView = new ScoreView();
         scoreView.setSize(100, 100);
-        this.add(scoreView);
+        add(scoreView);
     }
 
     private void startNewGame() {
@@ -355,6 +356,13 @@ public class Board extends JPanel {
                 else
                     jump();
                 return;
+            }
+
+            if (key == KeyEvent.VK_ESCAPE) {
+                setFocusable(false);
+                setVisible(false);
+                timer.stop();
+                Main.shared().showMainMenu();
             }
         }
     }

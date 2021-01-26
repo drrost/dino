@@ -1,6 +1,7 @@
 package world.ucode.menu;
 
 import world.ucode.Constants;
+import world.ucode.Main;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,6 +15,7 @@ public class Menu extends JPanel implements ActionListener {
 
     private List<String> menuItems;
     private String selectMenuItem;
+    private final int selectedMenuItemIndex;
     private String focusedItem;
     private MenuItemType selectedMenuItemType;
 
@@ -31,52 +33,19 @@ public class Menu extends JPanel implements ActionListener {
         menuItems.add("Exit");
         setSelectMenuItem(menuItems.get(0));
 
-        MouseAdapter ma = new MouseAdapter() {
+//        InputMap im = getInputMap(WHEN_IN_FOCUSED_WINDOW);
+//        ActionMap am = getActionMap();
 
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                String newItem = null;
-                for (String text : menuItems) {
-                    Rectangle bounds = menuBounds.get(text);
-                    if (bounds.contains(e.getPoint())) {
-                        newItem = text;
-                        break;
-                    }
-                }
-                if (newItem != null && !newItem.equals(selectMenuItem)) {
-                    setSelectMenuItem(newItem);
-                    repaint();
-                }
-            }
+//        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "arrowDown");
+//        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "arrowUp");
+//        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "enter");
 
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                focusedItem = null;
-                for (String text : menuItems) {
-                    Rectangle bounds = menuBounds.get(text);
-                    if (bounds.contains(e.getPoint())) {
-                        focusedItem = text;
-                        repaint();
-                        break;
-                    }
-                }
-            }
-        };
-
-        addMouseListener(ma);
-        addMouseMotionListener(ma);
-
-        InputMap im = getInputMap(WHEN_IN_FOCUSED_WINDOW);
-        ActionMap am = getActionMap();
-
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "arrowDown");
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "arrowUp");
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "enter");
-
-        am.put("arrowDown", new MenuAction(1, KeyEvent.VK_DOWN));
-        am.put("arrowUp", new MenuAction(-1, KeyEvent.VK_UP));
-        am.put("enter", new MenuAction(0, KeyEvent.VK_ENTER));
-
+//        am.put("arrowDown", new MenuAction(1, KeyEvent.VK_DOWN));
+//        am.put("arrowUp", new MenuAction(-1, KeyEvent.VK_UP));
+//        am.put("enter", new MenuAction(0, KeyEvent.VK_ENTER));
+        selectedMenuItemIndex = MenuItemType.NEW_GAME.ordinal();
+        addKeyListener( new TAdapter());
+        setFocusable(true);
     }
 
     @Override
@@ -161,6 +130,7 @@ public class Menu extends JPanel implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            System.out.println("!!!");
             int index = menuItems.indexOf(selectMenuItem);
             if (keyCode == KeyEvent.VK_ENTER) {
                 handleEnter();
@@ -182,8 +152,41 @@ public class Menu extends JPanel implements ActionListener {
         }
 
         private void handleEnter() {
-            if (selectedMenuItemType == MenuItemType.EXIT) {
-                System.exit(0);
+            switch (selectedMenuItemType) {
+                case NEW_GAME:
+                    EventQueue.invokeLater(() -> {
+                        Main.shared().startNewGame();
+                    });
+                    break;
+                default:
+                    System.exit(0);
+            }
+        }
+    }
+
+    private class TAdapter extends KeyAdapter {
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            int key = e.getKeyCode();
+
+            if (key == KeyEvent.VK_ENTER) {
+                return;
+            }
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+
+            System.out.println("??");
+            int key = e.getKeyCode();
+            if (key == KeyEvent.VK_ENTER) {
+                if (selectedMenuItemType == MenuItemType.EXIT)
+                    System.exit(0);
+                if (selectedMenuItemType == MenuItemType.NEW_GAME) {
+                    setFocusable(false);
+                    Main.shared().startNewGame();
+                }
             }
         }
     }
