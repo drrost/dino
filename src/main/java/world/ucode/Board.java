@@ -48,7 +48,7 @@ public class Board extends JPanel {
 
     public Board() {
         initBoard();
-        initGame();
+        startNewGame();
     }
 
     private void initBoard() {
@@ -62,16 +62,19 @@ public class Board extends JPanel {
         timer.start();
 
         scoreView = new ScoreView();
-        scoreView.setScore(score);
         scoreView.setSize(100, 100);
         this.add(scoreView);
     }
 
-    private void initGame() {
+    private void startNewGame() {
+        inGame = true;
+        gameStarted = false;
         score = 0;
+        scoreView.setScore(score);
 
         // Character
-        character = new Character();
+        if (character == null)
+            character = new Character();
         character.setState(Character.State.STAND);
 
         Image image = character.getCurrentImage();
@@ -83,9 +86,11 @@ public class Board extends JPanel {
         baseline = y + height;
 
         // Ground
-        ground = new GroundComponent();
-        y = character.getY() + height - 30;
-        ground.initGround(y);
+        if (ground == null) {
+            ground = new GroundComponent();
+            y = character.getY() + height - 30;
+            ground.initGround(y);
+        }
 
         count = 0;
         isJumping = false;
@@ -98,7 +103,6 @@ public class Board extends JPanel {
     private void drawCharacter(Graphics g) {
         if (character.isVisible()) {
             Image image = character.getCurrentImage();
-            character.drawBorder(g, this);
             g.drawImage(image, character.getX(), character.getY(), this);
         }
 
@@ -110,9 +114,8 @@ public class Board extends JPanel {
 
     private void drawCactuses(Graphics g) {
         for (Obstacle cactus : cactuses) {
-            Image image = cactus.getImage(0);
+            var image = cactus.getImage(0);
             g.drawImage(image, cactus.getX(), cactus.getY(), this);
-            cactus.drawBorder(g, this);
         }
     }
 
@@ -145,10 +148,19 @@ public class Board extends JPanel {
         var fontMetrics = this.getFontMetrics(small);
 
         g.setColor(Color.darkGray);
+
         g.setFont(small);
-        int x = (Constants.BOARD_WIDTH - fontMetrics.stringWidth(message)) / 2;
-        int y = Constants.BOARD_HEIGHT / 2;
+        var x = (Constants.BOARD_WIDTH - fontMetrics.stringWidth(message)) / 2;
+        var y = Constants.BOARD_HEIGHT / 2;
         g.drawString(message, x, y);
+
+        var smaller = new Font("Helvetica", Font.BOLD, 14);
+        g.setFont(smaller);
+        var submessage = "(press ENTER to restart)";
+        fontMetrics = getFontMetrics(smaller);
+        x = (Constants.BOARD_WIDTH - fontMetrics.stringWidth(submessage)) / 2;
+        y = Constants.BOARD_HEIGHT / 2 + fontMetrics.getHeight() + 5;
+        g.drawString(submessage, x, y);
     }
 
     private void update() {
@@ -238,7 +250,12 @@ public class Board extends JPanel {
             int key = e.getKeyCode();
 
             if (key == KeyEvent.VK_ENTER) {
-                gameStarted = true;
+                if (inGame == false) {
+                    startNewGame();
+                    return;
+                }
+                if (gameStarted == false)
+                    gameStarted = true;
                 return;
             }
 
@@ -260,6 +277,9 @@ public class Board extends JPanel {
 
             if (key == KeyEvent.VK_SPACE ||
                 key == KeyEvent.VK_UP) {
+                if (inGame == false) {
+                    return;
+                }
                 if (isJumping)
                     return;
                 if (!gameStarted)
