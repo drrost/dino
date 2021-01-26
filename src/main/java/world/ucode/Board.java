@@ -45,6 +45,7 @@ public class Board extends JPanel {
 
     private ArrayList<Obstacle> cactuses;
     int countToNextCactus;
+    int counts_to_increment = 0;
 
     public Board() {
         initBoard();
@@ -70,7 +71,9 @@ public class Board extends JPanel {
         inGame = true;
         gameStarted = false;
         score = 0;
-        scoreView.setScore(score);
+        scoreView.setScoreSpeed(score, gameSpeed);
+        gameSpeed = Constants.GAME_SPEED_INITIAL;
+        counts_to_increment = 0;
 
         // Character
         if (character == null)
@@ -165,7 +168,8 @@ public class Board extends JPanel {
 
     private void update() {
 
-        Character.State state = (count / 10) % 2 == 0 ? Character.State.LEFT : Character.State.RIGHT;
+        int step = 10;
+        Character.State state = (count / step) % 2 == 0 ? Character.State.LEFT : Character.State.RIGHT;
 
         if (!gameStarted) {
             state = count > 0 ? state : Character.State.STAND;
@@ -214,8 +218,25 @@ public class Board extends JPanel {
 
         // Scores
         //
-        score = count / 10;
-        scoreView.setScore(score);
+        var oldScore = score;
+        score = count / step;
+
+        // Complexity
+        //
+        float increment_value = Constants.GAME_SPEED_INCREMENT;
+        int increment_gap = Constants.GAME_SPEED_GAP;
+
+        int total_increment_steps = increment_gap * step;
+        if (score % 100 == 0 && gameSpeed < Constants.GAME_SPEED_MAX && score != oldScore)
+            counts_to_increment = total_increment_steps;
+
+        if (counts_to_increment > 0) {
+            float increment_step = increment_value / total_increment_steps;
+            gameSpeed += increment_step;
+            counts_to_increment--;
+        }
+
+        scoreView.setScoreSpeed(score, gameSpeed);
     }
 
     private void addCactus() {

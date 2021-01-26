@@ -11,7 +11,9 @@ public interface Constants {
     int DELAY = 10;
 
     float GAME_SPEED_INITIAL = 3.0f;
+    float GAME_SPEED_MAX = 10.0f;
     float GAME_SPEED_INCREMENT = 1.0f;
+    int GAME_SPEED_GAP = 20;
     float CHARACTER_SPEED_FACTOR = 2.0f;
 
     int JUMP_WINDOW_WIDTH = 15;
