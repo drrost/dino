@@ -112,15 +112,6 @@ public class Menu extends JPanel implements ActionListener {
     private class TAdapter extends KeyAdapter {
 
         @Override
-        public void keyReleased(KeyEvent e) {
-            int key = e.getKeyCode();
-
-            if (key == KeyEvent.VK_ENTER) {
-                return;
-            }
-        }
-
-        @Override
         public void keyPressed(KeyEvent e) {
 
             int key = e.getKeyCode();
