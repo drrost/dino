@@ -127,45 +127,31 @@ public class Board extends JPanel {
         g.fillRect(0, 0, d.width, d.height);
         g.setColor(Color.green);
 
-        if (inGame) {
-            ground.drawGround(g, this);
-            drawCactuses(g);
-            drawCharacter(g);
-        } else {
-            if (timer.isRunning()) {
-                timer.stop();
-            }
+        if (!inGame)
             gameOver(g);
-        }
+
+        ground.drawGround(g, this);
+        drawCactuses(g);
+        drawCharacter(g);
 
         Toolkit.getDefaultToolkit().sync();
     }
 
     private void gameOver(Graphics g) {
-
-        g.setColor(Color.black);
+        g.setColor(new Color(32, 32, 32));
         g.fillRect(0, 0, Constants.BOARD_WIDTH, Constants.BOARD_HEIGHT);
 
-        g.setColor(new Color(0, 32, 48));
-        g.fillRect(50, Constants.BOARD_WIDTH / 2 - 30, Constants.BOARD_WIDTH - 100, 50);
-        g.setColor(Color.white);
-        g.drawRect(50, Constants.BOARD_WIDTH / 2 - 30, Constants.BOARD_WIDTH - 100, 50);
-
-        var small = new Font("Helvetica", Font.BOLD, 14);
+        var small = new Font("Helvetica", Font.BOLD, 24);
         var fontMetrics = this.getFontMetrics(small);
 
-        g.setColor(Color.white);
+        g.setColor(Color.darkGray);
         g.setFont(small);
-        g.drawString(message, (Constants.BOARD_WIDTH - fontMetrics.stringWidth(message)) / 2,
-            Constants.BOARD_WIDTH / 2);
+        int x = (Constants.BOARD_WIDTH - fontMetrics.stringWidth(message)) / 2;
+        int y = Constants.BOARD_HEIGHT / 2;
+        g.drawString(message, x, y);
     }
 
     private void update() {
-        if (false) {
-            inGame = false;
-            timer.stop();
-            message = "Game won!";
-        }
 
         Character.State state = (count / 10) % 2 == 0 ? Character.State.LEFT : Character.State.RIGHT;
 
@@ -193,6 +179,7 @@ public class Board extends JPanel {
         character.act(state);
 
         // Cactuses
+        //
         countToNextCactus--;
         if (countToNextCactus <= 0) {
             addCactus();
@@ -204,6 +191,17 @@ public class Board extends JPanel {
         }
         cactuses.stream().filter(o -> o.getX() + o.getWidth(this) > 0);
 
+        // Collisions
+        //
+        for (Obstacle cactus : cactuses) {
+            if (character.intercepts(cactus, this)) {
+                gameStarted = false;
+                inGame = false;
+            }
+        }
+
+        // Scores
+        //
         score = count / 10;
         scoreView.setScore(score);
     }
