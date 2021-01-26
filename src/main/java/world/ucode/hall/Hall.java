@@ -3,6 +3,7 @@ package world.ucode.hall;
 import world.ucode.Constants;
 import world.ucode.Main;
 import world.ucode.board.Board;
+import world.ucode.service.ScoresService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,18 +16,17 @@ public class Hall extends JPanel {
 
     private List<Integer> scores;
     private Dimension dimension;
+    private ScoresService scoresService;
 
     public Hall() {
+        scoresService = new ScoresService();
+
         fetchScores();
         initHall();
     }
 
     private void fetchScores() {
-        scores = new ArrayList<>();
-        scores.add(234234);
-        scores.add(33344);
-        scores.add(33);
-        scores.add(4445);
+        scores = scoresService.getTop();
     }
 
     private void initHall() {
