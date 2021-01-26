@@ -1,9 +1,6 @@
 package world.ucode.service;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +15,16 @@ public class ScoresService {
 
     public void add(int score) {
         Connection connection = dbConnection.connect(DB_NAME);
+
+        String sql = "INSERT INTO scores (value) VALUES (?)";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, score);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
 
         dbConnection.disconnect(connection);
     }

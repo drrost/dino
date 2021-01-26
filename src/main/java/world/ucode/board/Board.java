@@ -9,6 +9,7 @@ import world.ucode.board.sprites.Cactus;
 import world.ucode.board.sprites.Character;
 import world.ucode.board.sprites.Cloud;
 import world.ucode.board.sprites.Obstacle;
+import world.ucode.service.ScoresService;
 import world.ucode.utils.Utils;
 
 import javax.swing.*;
@@ -246,6 +247,7 @@ public class Board extends JPanel {
             if (character.intercepts(cactus, this)) {
                 gameStarted = false;
                 inGame = false;
+                new ScoresService().add(score);
                 Utils.playSound("game_over.wav");
             }
         }
