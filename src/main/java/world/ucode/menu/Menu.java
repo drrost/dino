@@ -15,7 +15,7 @@ public class Menu extends JPanel implements ActionListener {
 
     private List<String> menuItems;
     private String selectMenuItem;
-    private final int selectedMenuItemIndex;
+    private int selectedMenuItemIndex;
     private String focusedItem;
     private MenuItemType selectedMenuItemType;
 
@@ -31,18 +31,8 @@ public class Menu extends JPanel implements ActionListener {
         menuItems.add("New Game");
         menuItems.add("Hall of Fame");
         menuItems.add("Exit");
-        setSelectMenuItem(menuItems.get(0));
+        setSelectedMenuItemIndex(selectedMenuItemIndex);
 
-//        InputMap im = getInputMap(WHEN_IN_FOCUSED_WINDOW);
-//        ActionMap am = getActionMap();
-
-//        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "arrowDown");
-//        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "arrowUp");
-//        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "enter");
-
-//        am.put("arrowDown", new MenuAction(1, KeyEvent.VK_DOWN));
-//        am.put("arrowUp", new MenuAction(-1, KeyEvent.VK_UP));
-//        am.put("enter", new MenuAction(0, KeyEvent.VK_ENTER));
         selectedMenuItemIndex = MenuItemType.NEW_GAME.ordinal();
         addKeyListener( new TAdapter());
         setFocusable(true);
@@ -104,9 +94,10 @@ public class Menu extends JPanel implements ActionListener {
         System.out.println(e);
     }
 
-    private void setSelectMenuItem(String item) {
-        selectMenuItem = item;
-        switch (item) {
+    private void setSelectedMenuItemIndex(int index) {
+        selectedMenuItemIndex = index;
+        selectMenuItem = menuItems.get(index);
+        switch (selectMenuItem) {
             case "New Game":
                 selectedMenuItemType = MenuItemType.NEW_GAME;
                 break;
@@ -115,52 +106,6 @@ public class Menu extends JPanel implements ActionListener {
                 break;
             default:
                 selectedMenuItemType = MenuItemType.EXIT;
-        }
-    }
-
-    public class MenuAction extends AbstractAction {
-
-        private final int delta;
-        private final int keyCode;
-
-        public MenuAction(int delta, int keyCode) {
-            this.delta = delta;
-            this.keyCode = keyCode;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            System.out.println("!!!");
-            int index = menuItems.indexOf(selectMenuItem);
-            if (keyCode == KeyEvent.VK_ENTER) {
-                handleEnter();
-                return;
-            }
-
-            if (index < 0) {
-                setSelectMenuItem(menuItems.get(0));
-            }
-            index += delta;
-            if (index < 0) {
-                setSelectMenuItem(menuItems.get(menuItems.size() - 1));
-            } else if (index >= menuItems.size()) {
-                setSelectMenuItem(menuItems.get(0));
-            } else {
-                setSelectMenuItem(menuItems.get(index));
-            }
-            repaint();
-        }
-
-        private void handleEnter() {
-            switch (selectedMenuItemType) {
-                case NEW_GAME:
-                    EventQueue.invokeLater(() -> {
-                        Main.shared().startNewGame();
-                    });
-                    break;
-                default:
-                    System.exit(0);
-            }
         }
     }
 
@@ -178,8 +123,8 @@ public class Menu extends JPanel implements ActionListener {
         @Override
         public void keyPressed(KeyEvent e) {
 
-            System.out.println("??");
             int key = e.getKeyCode();
+
             if (key == KeyEvent.VK_ENTER) {
                 if (selectedMenuItemType == MenuItemType.EXIT)
                     System.exit(0);
@@ -187,7 +132,21 @@ public class Menu extends JPanel implements ActionListener {
                     setFocusable(false);
                     Main.shared().startNewGame();
                 }
+                return;
             }
+
+            if (key == KeyEvent.VK_DOWN) {
+                selectedMenuItemIndex++;
+                selectedMenuItemIndex = selectedMenuItemIndex % menuItems.size();
+            }
+
+            if (key == KeyEvent.VK_UP) {
+                selectedMenuItemIndex--;
+                selectedMenuItemIndex = selectedMenuItemIndex < 0 ? 2 : selectedMenuItemIndex;
+                setSelectedMenuItemIndex(selectedMenuItemIndex);
+            }
+            setSelectedMenuItemIndex(selectedMenuItemIndex);
+            repaint();
         }
     }
 }
