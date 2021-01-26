@@ -29,7 +29,9 @@ public class Character extends Sprite {
         this.state = state;
     }
 
+    @Override
     public Image getCurrentImage() {
         return getImage(state.ordinal());
     }
+
 }

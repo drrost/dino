@@ -98,6 +98,7 @@ public class Board extends JPanel {
     private void drawCharacter(Graphics g) {
         if (character.isVisible()) {
             Image image = character.getCurrentImage();
+            character.drawBorder(g, this);
             g.drawImage(image, character.getX(), character.getY(), this);
         }
 
@@ -111,6 +112,7 @@ public class Board extends JPanel {
         for (Obstacle cactus : cactuses) {
             Image image = cactus.getImage(0);
             g.drawImage(image, cactus.getX(), cactus.getY(), this);
+            cactus.drawBorder(g, this);
         }
     }
 

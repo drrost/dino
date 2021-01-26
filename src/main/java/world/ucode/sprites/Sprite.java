@@ -2,6 +2,7 @@ package world.ucode.sprites;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.ImageObserver;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -73,8 +74,25 @@ public class Sprite {
     public Image image(String name) {
         URL url = getClass().getClassLoader().getResource(name);
         ImageIcon ii = new ImageIcon(url);
-
-
         return ii.getImage();
+    }
+
+    public void drawBorder(Graphics g, ImageObserver observer) {
+        g.drawRect(getX(), getY(),
+            getWidth(observer), getHeight(observer));
+    }
+
+    protected Image getCurrentImage() {
+        return getImage(0);
+    }
+
+    public int getWidth(ImageObserver observer) {
+        Image image = getCurrentImage();
+        return image.getWidth(observer);
+    }
+
+    public int getHeight(ImageObserver observer) {
+        Image image = getCurrentImage();
+        return image.getHeight(observer);
     }
 }
