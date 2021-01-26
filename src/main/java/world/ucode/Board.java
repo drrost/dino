@@ -1,5 +1,6 @@
 package world.ucode;
 
+import world.ucode.controls.ScoreView;
 import world.ucode.game.ObstacleFactory;
 import world.ucode.sprites.Cactus;
 import world.ucode.sprites.Character;
@@ -15,6 +16,13 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class Board extends JPanel {
+
+    // UI
+    private ScoreView scoreView;
+
+    // Values
+
+    private int score = 0;
 
     private Dimension d;
     private int baseline = 0;
@@ -52,9 +60,16 @@ public class Board extends JPanel {
 
         timer = new Timer(Constants.DELAY, new GameCycle());
         timer.start();
+
+        scoreView = new ScoreView();
+        scoreView.setScore(score);
+        scoreView.setSize(100, 100);
+        this.add(scoreView);
     }
 
     private void initGame() {
+        score = 0;
+
         // Character
         character = new Character();
         character.setState(Character.State.STAND);
@@ -160,12 +175,12 @@ public class Board extends JPanel {
 
         count++;
 
-        int increment = (int)(Constants.CHARACTER_SPEED_FACTOR * gameSpeed);
+        int increment = (int) (Constants.CHARACTER_SPEED_FACTOR * gameSpeed);
         ground.shift(increment);
 
         if (isJumping) {
             state = Character.State.STAND;
-            int y = (int)(Constants.JUMP_WIDTH_FACTOR * jump_x * jump_x +
+            int y = (int) (Constants.JUMP_WIDTH_FACTOR * jump_x * jump_x +
                 Constants.JUMP_TOP_FACTOR);
             jump_x += jump_dx;
             character.setY(y);
@@ -186,6 +201,9 @@ public class Board extends JPanel {
             cactus.setX(cactus.getX() - increment);
         }
         cactuses.stream().filter(o -> o.getX() + o.getWidth(this) > 0);
+
+        score = count / 10;
+        scoreView.setScore(score);
     }
 
     private void addCactus() {
