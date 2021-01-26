@@ -24,7 +24,6 @@ public class Main extends JFrame {
     }
 
     public static void main(String[] args) {
-
         EventQueue.invokeLater(() -> {
             instance = new Main();
             instance.setVisible(true);
@@ -32,34 +31,28 @@ public class Main extends JFrame {
     }
 
     public void startNewGame() {
-        EventQueue.invokeLater(() -> {
-            getContentPane().removeAll();
-            var board = new Board();
-            getContentPane().add(board);
-            invalidate();
-            validate();
-            board.requestFocusInWindow();
-            board.setFocusable(true);
-            board.setVisible(true);
-        });
+        showPanel(new Board());
     }
 
     public void showMainMenu() {
-        EventQueue.invokeLater(() -> {
-            getContentPane().removeAll();
-            var menu = new Menu();
-            getContentPane().add(menu);
-            invalidate();
-            validate();
-            menu.requestFocusInWindow();
-            menu.setFocusable(true);
-            menu.setVisible(true);
-        });
+        showPanel(new Menu());
     }
 
     private static Main instance;
 
     public static Main shared() {
         return instance;
+    }
+
+    private void showPanel(JPanel panel) {
+        EventQueue.invokeLater(() -> {
+            getContentPane().removeAll();
+            getContentPane().add(panel);
+            invalidate();
+            validate();
+            panel.requestFocusInWindow();
+            panel.setFocusable(true);
+            panel.setVisible(true);
+        });
     }
 }
