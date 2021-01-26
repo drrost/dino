@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class Board extends JPanel {
 
     private Dimension d;
+    private int baseline = 0;
     private Character character;
     private GroundComponent ground;
 
@@ -64,6 +65,7 @@ public class Board extends JPanel {
         character.setX(Constants.CHARACTER_X_POSITION);
         int y = Constants.BOARD_HEIGHT - height - Constants.CHARACTER_Y_OFFSET;
         character.setY(y);
+        baseline = y + height;
 
         // Ground
         ground = new GroundComponent();
@@ -180,14 +182,22 @@ public class Board extends JPanel {
             countToNextCactus = Utils.getRandomNumber(
                 Constants.COUNT_TO_NEXT_MIN, Constants.COUNT_TO_NEXT_MAX);
         }
+        for (Obstacle cactus : cactuses) {
+            cactus.setX(cactus.getX() - increment);
+        }
+        cactuses.stream().filter(o -> o.getX() + o.getWidth(this) > 0);
     }
 
     private void addCactus() {
         ObstacleFactory obstacleFactory = new ObstacleFactory();
         Cactus cactus = obstacleFactory.randomCactus();
         cactuses.add(cactus);
-        cactus.setX(50);
-        cactus.setY(100);
+
+        Image image = cactus.getImage(0);
+        cactus.setX(Constants.BOARD_WIDTH);
+        int height = image.getHeight(this);
+        image.getWidth(this);
+        cactus.setY(baseline - height);
     }
 
     private void doGameCycle() {
@@ -220,6 +230,15 @@ public class Board extends JPanel {
                 gameStarted = !gameStarted;
                 return;
             }
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+
+            int x = character.getX();
+            int y = character.getY();
+
+            int key = e.getKeyCode();
 
             if (key == KeyEvent.VK_SPACE ||
                 key == KeyEvent.VK_UP) {
@@ -231,15 +250,6 @@ public class Board extends JPanel {
                     jump();
                 return;
             }
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-
-            int x = character.getX();
-            int y = character.getY();
-
-            int key = e.getKeyCode();
         }
     }
 

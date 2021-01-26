@@ -10,7 +10,7 @@ public interface Constants {
 
     int DELAY = 10;
 
-    float GAME_SPEED_INITIAL = 1.0f;
+    float GAME_SPEED_INITIAL = 3.0f;
     float GAME_SPEED_INCREMENT = 1.0f;
     float CHARACTER_SPEED_FACTOR = 2.0f;
 
@@ -20,6 +20,6 @@ public interface Constants {
     float JUMP_STEP = 0.5f;
 
     int COUNT_TO_NEXT_INITIAL = 100;
-    int COUNT_TO_NEXT_MIN = 100;
-    int COUNT_TO_NEXT_MAX = 200;
+    int COUNT_TO_NEXT_MIN = 300;
+    int COUNT_TO_NEXT_MAX = 500;
 }
