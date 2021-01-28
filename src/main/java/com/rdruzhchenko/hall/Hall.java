@@ -1,15 +1,13 @@
-package world.ucode.hall;
+package com.rdruzhchenko.hall;
 
-import world.ucode.Constants;
-import world.ucode.Main;
-import world.ucode.board.Board;
-import world.ucode.service.ScoresService;
+import com.rdruzhchenko.service.ScoresService;
+import com.rdruzhchenko.Constants;
+import com.rdruzhchenko.Main;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Hall extends JPanel {

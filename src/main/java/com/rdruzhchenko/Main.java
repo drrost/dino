@@ -1,8 +1,8 @@
-package world.ucode;
+package com.rdruzhchenko;
 
-import world.ucode.board.Board;
-import world.ucode.hall.Hall;
-import world.ucode.menu.Menu;
+import com.rdruzhchenko.board.Board;
+import com.rdruzhchenko.hall.Hall;
+import com.rdruzhchenko.menu.Menu;
 
 import javax.swing.*;
 import java.awt.*;

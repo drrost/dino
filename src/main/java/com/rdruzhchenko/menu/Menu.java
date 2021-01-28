@@ -1,7 +1,7 @@
-package world.ucode.menu;
+package com.rdruzhchenko.menu;
 
-import world.ucode.Constants;
-import world.ucode.Main;
+import com.rdruzhchenko.Constants;
+import com.rdruzhchenko.Main;
 
 import javax.swing.*;
 import java.awt.*;

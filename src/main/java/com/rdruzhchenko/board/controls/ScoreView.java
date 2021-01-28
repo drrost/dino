@@ -1,4 +1,4 @@
-package world.ucode.board.controls;
+package com.rdruzhchenko.board.controls;
 
 import javax.swing.*;
 

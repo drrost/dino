@@ -1,4 +1,4 @@
-package world.ucode.utils;
+package com.rdruzhchenko.utils;
 
 import javax.sound.sampled.*;
 import javax.swing.*;

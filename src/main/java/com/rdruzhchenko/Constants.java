@@ -1,4 +1,4 @@
-package world.ucode;
+package com.rdruzhchenko;
 
 public interface Constants {
 

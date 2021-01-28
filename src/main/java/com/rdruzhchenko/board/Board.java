@@ -1,16 +1,16 @@
-package world.ucode.board;
+package com.rdruzhchenko.board;
 
-import world.ucode.Constants;
-import world.ucode.Main;
-import world.ucode.board.controls.GroundComponent;
-import world.ucode.board.controls.ScoreView;
-import world.ucode.board.game.ObstacleFactory;
-import world.ucode.board.sprites.Cactus;
-import world.ucode.board.sprites.Character;
-import world.ucode.board.sprites.Cloud;
-import world.ucode.board.sprites.Obstacle;
-import world.ucode.service.ScoresService;
-import world.ucode.utils.Utils;
+import com.rdruzhchenko.board.game.ObstacleFactory;
+import com.rdruzhchenko.board.sprites.Cactus;
+import com.rdruzhchenko.board.sprites.Obstacle;
+import com.rdruzhchenko.service.ScoresService;
+import com.rdruzhchenko.Constants;
+import com.rdruzhchenko.Main;
+import com.rdruzhchenko.board.controls.GroundComponent;
+import com.rdruzhchenko.board.controls.ScoreView;
+import com.rdruzhchenko.board.sprites.Character;
+import com.rdruzhchenko.board.sprites.Cloud;
+import com.rdruzhchenko.utils.Utils;
 
 import javax.swing.*;
 import java.awt.*;

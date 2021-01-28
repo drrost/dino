@@ -1,4 +1,4 @@
-package world.ucode.service;
+package com.rdruzhchenko.service;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -1,7 +1,7 @@
-package world.ucode.board.game;
+package com.rdruzhchenko.board.game;
 
-import world.ucode.board.sprites.Cactus;
-import world.ucode.utils.Utils;
+import com.rdruzhchenko.board.sprites.Cactus;
+import com.rdruzhchenko.utils.Utils;
 
 public class ObstacleFactory {
 

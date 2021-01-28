@@ -1,4 +1,4 @@
-package world.ucode.menu;
+package com.rdruzhchenko.menu;
 
 import java.awt.*;
 

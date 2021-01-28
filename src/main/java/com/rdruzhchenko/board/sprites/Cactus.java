@@ -1,4 +1,4 @@
-package world.ucode.board.sprites;
+package com.rdruzhchenko.board.sprites;
 
 public class Cactus extends Obstacle {
 
